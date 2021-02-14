@@ -23,12 +23,14 @@ const showImages = (images) => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
-    gallery.appendChild(div)
+    gallery.appendChild(div);
+    loader(false);
   })
 
 }
 
 const getImages = (query) => {
+  loader(true);
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
     .then(data => showImages(data.hits))
@@ -44,7 +46,7 @@ const selectItem = (event, img) => {
   if (item === -1) {
     sliders.push(img);
   } else {
-    alert('Hey, Already added !')
+    pop()
   }
 }
 var timer
@@ -67,10 +69,10 @@ const createSlider = () => {
   document.querySelector('.main').style.display = 'block';
   // hide image aria
   imagesArea.style.display = 'none';
-  const duration = document.getElementById('duration').value || 1000;
+  let duration = document.getElementById('duration').value || 1000;
   if (duration < 1000) {
-    confirm("Your input can't be less than 1000. Do you want the slider to change in default interval?");
-  }
+    duration = 1000;
+  } 
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -137,3 +139,13 @@ document.getElementById("duration").addEventListener("keypress", function(event)
   }
   
 });
+
+const loader = (show) => {
+  const spinner = document.getElementById("loader");
+  if (show) {
+    spinner.classList.remove('d-none');
+  }
+  else {
+    spinner.classList.add('d-none');
+  }
+}
