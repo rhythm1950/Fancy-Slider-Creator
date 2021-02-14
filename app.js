@@ -17,6 +17,7 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 const showImages = (images) => {
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
+
   // show gallery title
   galleryHeader.style.display = 'flex';
   images.forEach(image => {
@@ -49,6 +50,7 @@ const selectItem = (event, img) => {
     pop()
   }
 }
+
 var timer
 const createSlider = () => {
   // check slider image length
@@ -56,6 +58,7 @@ const createSlider = () => {
     alert('Select at least 2 image.')
     return;
   }
+
   // crate slider previous next area
   sliderContainer.innerHTML = '';
   const prevNext = document.createElement('div');
@@ -67,9 +70,11 @@ const createSlider = () => {
 
   sliderContainer.appendChild(prevNext)
   document.querySelector('.main').style.display = 'block';
-  // hide image aria
+  // hide image area
   imagesArea.style.display = 'none';
   let duration = document.getElementById('duration').value || 1000;
+
+  // slider duration input condition 
   if (duration < 1000) {
     duration = 1000;
   } 
@@ -81,6 +86,7 @@ const createSlider = () => {
     alt="">`;
     sliderContainer.appendChild(item)
   })
+
   changeSlide(0)
   timer = setInterval(function () {
     slideIndex++;
@@ -118,6 +124,10 @@ searchBtn.addEventListener('click', function () {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search');
+  // Input validation added
+  if (search.value == "") {
+    alert("You haven't input any keyword. Do you want to see random random result?");
+  }
   getImages(search.value)
   sliders.length = 0;
 })
@@ -126,20 +136,21 @@ sliderBtn.addEventListener('click', function () {
   createSlider()
 })
 
+  //  Enter keyPress functionality
 document.getElementById("search").addEventListener("keypress", function(event) {
     if (event.key === "Enter"){
       document.getElementById("search-btn").click();
-    }
-    
+    }   
 });
 
 document.getElementById("duration").addEventListener("keypress", function(event) {
   if (event.key === "Enter"){
     document.getElementById("create-slider").click();
   }
-  
+
 });
 
+// spinner
 const loader = (show) => {
   const spinner = document.getElementById("loader");
   if (show) {
@@ -149,3 +160,4 @@ const loader = (show) => {
     spinner.classList.add('d-none');
   }
 }
+
