@@ -208,9 +208,4 @@ img {
 
 img {
   height: 400px;
-  object-fit: cover;
-}
-
-.prev-next {
-  position: absolute;
 }
